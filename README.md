@@ -60,4 +60,28 @@ The program reads from standard input:
 2. `K`: Number of operations.
 3. List of operations in the format `P<id><type>` (e.g., `P1Rd` for Processor 1 Read, `P2Wr` for Processor 2 Write).
 
+# MPI Image Editor (Distributed Convolution) : Final project
+
+This application is a distributed image processor designed to handle PNM images (P5/P6) across a cluster or multi-core system using the **Message Passing Interface (MPI)**.
+
+## Architecture
+- **Rank 0 (Master)**: Handles I/O operations, command parsing from `stdin`, and coordinates the workers.
+- **Workers**: Perform parallel computation on assigned horizontal strips of the image.
+- **Halo Exchange**: To compute 3x3 convolutions at the borders of each strip, processes exchange "halo" rows with their neighbors using `MPI_Sendrecv`.
+
+## Supported Operations
+1. **LOAD <file>**: Rank 0 reads the file and scatters the rows across all processes.
+2. **SELECT ALL**: Resets the processing area to the full image dimensions.
+3. **BENCH <iters> GAUSS_SOBEL**: Runs a benchmark sequence consisting of a Gaussian Blur followed by a Sobel Edge Detection filter.
+4. **SAVE <file>**: Gathers all image strips back to Rank 0 and writes the final PNM file.
+5. **EXIT**: Terminates all MPI processes.
+
+## Performance Optimization
+* **Block Distribution**: Rows are distributed evenly to balance the computational load.
+* **Double Buffering**: Uses `cur` and `next` buffers to avoid data race conditions during stencil calculations.
+* **Native Tuning**: Compiled with `-O3 -march=native` for SIMD auto-vectorization.
+
+## Compilation
+```bash
+mpicc -O3 -march=native -std=c11 image_editor_mpi.c -lm -o editor_mpi
 
