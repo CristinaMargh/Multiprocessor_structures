@@ -22,3 +22,25 @@ This program simulates a **Benes Network**, a rearrangeable non-blocking multist
 - **Recursive Routing:** Dynamically builds a $(2\log_2 N - 1)$ stage network.
 - **Lee-Paull Algorithm:** Efficiently colors paths to split traffic between upper and lower subnetworks.
 - **Integrated Verification:** Simulates data flow through the configured switches to confirm the permutation is correctly routed.
+
+# Pthread Broadcast and Reduction Example
+
+This project demonstrates a basic **Fork-Join** parallel programming pattern using the `pthread` library in C. It simulates a Master-Worker architecture where data is broadcasted to multiple threads, processed, and then aggregated (reduced).
+
+
+## Features
+* **Data Broadcasting**: A constant value is distributed to all worker threads via a shared structure.
+* **Parallel Processing**: Each thread performs a calculation based on its unique `thread_id`.
+* **Reduction**: The Master thread aggregates partial results from all workers using `pthread_join`.
+
+## How it Works
+1. **Initialization**: The Master thread defines a set of structures to hold thread-specific data.
+2. **Creation (Fork)**: `pthread_create` spawns 4 threads. Each thread receives its ID and the broadcasted value.
+3. **Execution**: Each thread calculates $Result = Value \times (ID + 1)$.
+4. **Synchronization (Join)**: The Master thread waits for all threads to complete.
+5. **Aggregation**: The Master thread sums up all `partial_result` values and prints the final total.
+
+## Compilation and Execution
+
+To compile the program, you need to link the `lpthread` library:
+
