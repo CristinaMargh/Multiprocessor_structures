@@ -42,5 +42,22 @@ This project demonstrates a basic **Fork-Join** parallel programming pattern usi
 
 ## Compilation and Execution
 
-To compile the program, you need to link the `lpthread` library:
+To compile the program, you need to link the `lpthread` library.
+
+# MESI Cache Coherence Simulator
+
+This program simulates the **MESI protocol** state machine in a multi-processor environment with a shared bus. It tracks cache line transitions for multiple processors as they perform Read and Write operations.
+
+## MESI States
+- **M (Modified)**: Cache line is present only in the current cache and has been modified (dirty).
+- **E (Exclusive)**: Cache line is present only in the current cache but is clean (matches memory).
+- **S (Shared)**: Cache line may be stored in other caches and is clean.
+- **I (Invalid)**: Cache line is invalid/not present.
+
+## Input Format
+The program reads from standard input:
+1. `N`: Number of processors.
+2. `K`: Number of operations.
+3. List of operations in the format `P<id><type>` (e.g., `P1Rd` for Processor 1 Read, `P2Wr` for Processor 2 Write).
+
 
