@@ -60,7 +60,28 @@ The program reads from standard input:
 2. `K`: Number of operations.
 3. List of operations in the format `P<id><type>` (e.g., `P1Rd` for Processor 1 Read, `P2Wr` for Processor 2 Write).
 
-# MPI Image Editor (Distributed Convolution) : Final project
+# MPI Image Editor (Distributed Convolution) : Final project with serial and mpi, omp implementations
+
+# Serial Image Processor (Baseline)
+
+This is a CLI-based image processing tool written in C. It serves as the single-threaded baseline for evaluating the performance gains of parallel implementations (OpenMP or MPI).
+
+## Core Features
+* **Format Support**: Handles binary PNM files (P5 for Grayscale and P6 for RGB).
+* **Selection System**: Operations can be limited to specific sub-regions using `SELECT <x1> <y1> <x2> <y2>`.
+* **Stencil Filters**: Implementation of various 3x3 convolution kernels (Blur, Gaussian, Sharpen, Edge Detection).
+* **Statistical Tools**: Histogram generation and Histogram Equalization for Grayscale images.
+* **Benchmarking**: Built-in high-resolution timer to measure the execution time of repetitive tasks.
+
+## Commands Reference
+| Command | Arguments | Description |
+| :--- | :--- | :--- |
+| `LOAD` | `<path>` | Loads an image from the specified path. |
+| `SELECT` | `ALL` or `x1 y1 x2 y2` | Defines the area of interest. |
+| `APPLY` | `EDGE`/`BLUR`/`SHARPEN`/`GAUSSIAN_BLUR` | Applies a convolution filter. |
+| `EQUALIZE` | - | Enhances contrast using Histogram Equalization. |
+| `BENCH` | `<iters> <filter_name>` | Measures performance over multiple iterations. |
+| `SAVE` | `<path>` | Writes the current image buffer to disk. |
 
 This application is a distributed image processor designed to handle PNM images (P5/P6) across a cluster or multi-core system using the **Message Passing Interface (MPI)**.
 
